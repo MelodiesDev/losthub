@@ -6,7 +6,6 @@ import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerToggleFlightEvent
 import org.bukkit.event.player.PlayerToggleSneakEvent
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.math.min
@@ -22,7 +21,7 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
         val blockBelow = player.location.block.getRelative(BlockFace.DOWN)
         if (!blockBelow.isSolid) return
 
-        var chargeTime = 1
+        var chargeTime = 0.8f
         val chargeDelay = 10L
 
         Bukkit.getScheduler().runTaskTimer(plugin, { task ->
@@ -41,12 +40,12 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
                 if (chargeTime <= chargeDelay) return@runTaskTimer
 
                 val maxPower = 3.5
-                val power = min((chargeTime.toDouble() - chargeDelay) * 0.2, maxPower)
+                val power = min((chargeTime - chargeDelay) * 0.2, maxPower)
 
                 player.velocity = player.location.direction.multiply(min(power, maxPower))
 
-                player.playSound(player, Sound.ITEM_TRIDENT_RIPTIDE_1, 0.5f, 2f)
-                player.spawnParticle(
+                player.world.playSound(player, Sound.ITEM_TRIDENT_RIPTIDE_1, 0.5f, 2f)
+                player.world.spawnParticle(
                     org.bukkit.Particle.BLOCK_CRACK,
                     player.location,
                     100,
@@ -62,18 +61,18 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
         }, 0L, 1L)
     }
 
-    @EventHandler
-    fun doubleTap(event: PlayerToggleFlightEvent) {
-        val player = event.player
-        player.allowFlight = true
-
-        if (player.location.block.getRelative(BlockFace.DOWN).isEmpty) {
-            event.player.isGliding = true
-            startParticleTask(player)
-        } else {
-            event.isCancelled = true
-        }
-    }
+//    @EventHandler
+//    fun doubleTap(event: PlayerToggleFlightEvent) {
+//        val player = event.player
+//        player.allowFlight = true
+//
+//        if (player.location.block.getRelative(BlockFace.DOWN).isEmpty) {
+//            event.player.isGliding = true
+//            startParticleTask(player)
+//        } else {
+//            event.isCancelled = true
+//        }
+//    }
 
 //    @EventHandler
 //    fun canFly(event: EntityToggleGlideEvent) {
@@ -86,8 +85,8 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
     private fun startParticleTask(player: Player) {
         Bukkit.getScheduler().runTaskTimer(plugin, { task2 ->
             if (player.location.block.getRelative(BlockFace.DOWN).isEmpty) {
-                player.spawnParticle(org.bukkit.Particle.ELECTRIC_SPARK, player.location, 10, 0.25, 0.5, 0.25, 0.0)
-                player.spawnParticle(org.bukkit.Particle.DRAGON_BREATH, player.location, 10, 0.0, 0.25, 0.0, 0.0)
+                player.world.spawnParticle(org.bukkit.Particle.ELECTRIC_SPARK, player.location, 10, 0.25, 0.5, 0.25, 0.0)
+                player.world.spawnParticle(org.bukkit.Particle.DRAGON_BREATH, player.location, 10, 0.0, 0.25, 0.0, 0.0)
             } else {
                 task2.cancel()
             }

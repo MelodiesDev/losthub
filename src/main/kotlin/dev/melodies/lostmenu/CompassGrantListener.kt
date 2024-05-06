@@ -7,6 +7,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -40,6 +41,13 @@ class CompassGrantListener : Listener {
     @EventHandler
     fun onInventoryClick(event: InventoryClickEvent) {
         if (event.currentItem?.isSimilar(COMPASS) == true
+        ) {
+            event.isCancelled = true
+        }
+    }
+    @EventHandler
+    fun onDrop(event: PlayerDropItemEvent) {
+        if (event.itemDrop.itemStack.isSimilar(COMPASS)
         ) {
             event.isCancelled = true
         }

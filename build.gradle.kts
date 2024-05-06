@@ -46,6 +46,10 @@ configure<BukkitPluginDescription> {
             description = "Opens the info book"
             permission = "losthub.info"
         }
+        create("hub") {
+            description = "Teleports you to the hub"
+            permission = "losthub.server"
+        }
     }
 }
 

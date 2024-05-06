@@ -2,6 +2,7 @@ package dev.melodies.lostmenu
 
 import dev.melodies.utils.toMiniMessage
 import dev.melodies.utils.wrapped
+import net.kyori.adventure.text.event.ClickEvent
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -37,6 +38,11 @@ class OpenShopListener : Listener {
                             "<gradient:dark_purple:light_purple>Click to open the shop in your browser</gradient>".toMiniMessage().wrapped()
                         )
                 )
+                {
+                    event.player.closeInventory()
+                    event.player.sendMessage("<gradient:dark_purple:light_purple>melodies.dev uber sale 100% off!!!</gradient>".toMiniMessage().clickEvent(
+                        ClickEvent.openUrl("https://melodies.dev")))
+                }
             )
             .build()
 
