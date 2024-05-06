@@ -1,6 +1,5 @@
 import dev.melodies.gradle.gitVersion
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
-import net.minecrell.pluginyml.paper.PaperPluginDescription
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import xyz.jpenilla.runpaper.task.RunServer
 
@@ -36,8 +35,8 @@ dependencies {
 }
 
 configure<BukkitPluginDescription> {
-    name = "lostplugins"
-    main = "dev.melodies.lostplugins.LostPlugins"
+    name = "LostHub"
+    main = "dev.melodies.losthub.LostHubPlugins"
 
     authors = listOf("Melody <3")
     apiVersion = "1.20"
@@ -45,7 +44,7 @@ configure<BukkitPluginDescription> {
     commands {
         create("info") {
             description = "Opens the info book"
-            permission = "lostplugins.info"
+            permission = "losthub.info"
         }
     }
 }

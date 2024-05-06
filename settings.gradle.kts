@@ -1,4 +1,4 @@
-rootProject.name = "lost-plugins"
+rootProject.name = "lost-hub"
 
 pluginManagement {
     repositories {

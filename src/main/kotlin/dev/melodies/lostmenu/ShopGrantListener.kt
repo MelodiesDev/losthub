@@ -1,10 +1,9 @@
-package dev.melodies.lostitems
+package dev.melodies.lostmenu
 
 import dev.melodies.utils.toMiniMessage
 import dev.melodies.utils.wrapped
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
-import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -12,17 +11,15 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
-import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper
 import xyz.xenondevs.invui.item.builder.ItemBuilder
 
-class PickaxeGrantListener : Listener {
+class ShopGrantListener : Listener {
     companion object {
-        val KEY = NamespacedKey("lost-items", "pickaxe")
+        val KEY = NamespacedKey("lost-items", "emerald")
 
-        val PICKAXE: ItemStack = ItemBuilder(Material.WOODEN_PICKAXE)
-            .setDisplayName("<#964B00>Wooden Pickaxe</#964B00>".toMiniMessage().wrapped())
-            .addLoreLines("<gray>A shoddy Wooden Pickaxe.</gray>".toMiniMessage().wrapped())
-            .setUnbreakable(true)
+        val EMERALD: ItemStack = ItemBuilder(Material.EMERALD)
+            .setDisplayName("<gradient:aqua:dark_purple>Shop</gradient>".toMiniMessage().wrapped())
+            .addLoreLines("<dark_purple>Open the Shop.</dark_purple>".toMiniMessage().wrapped())
             .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
             .get()
             .also { item ->
@@ -32,25 +29,18 @@ class PickaxeGrantListener : Listener {
             }
     }
 
-
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
-        player.inventory.setItem(0, PICKAXE)
-        checkPickaxe(player)
-    }
-
-    private fun checkPickaxe(player: Player) {
         val inv = player.inventory
-        val firstSlotItem = inv.getItem(0)
-        if (firstSlotItem?.isSimilar(PICKAXE) != true) {
-            inv.setItem(0, PICKAXE.clone())
-        }
+
+        inv.setItem(7, (EMERALD))
     }
 
     @EventHandler
-    fun inventoryClick(event: InventoryClickEvent) {
-        if (event.currentItem?.isSimilar(PICKAXE) == true) {
+    fun onInventoryClick(event: InventoryClickEvent) {
+        if (event.currentItem?.isSimilar(EMERALD) == true
+        ) {
             event.isCancelled = true
         }
     }

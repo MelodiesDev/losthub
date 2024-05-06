@@ -1,4 +1,4 @@
-package dev.melodies.losthub
+package dev.melodies.losthubfeats
 
 import org.bukkit.Bukkit
 import org.bukkit.Sound
@@ -6,28 +6,11 @@ import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.entity.EntityToggleGlideEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
 import org.bukkit.event.player.PlayerToggleSneakEvent
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.scheduler.BukkitTask
 import kotlin.math.min
 
-/**
- * We want to let the player charge their jump, and when they release shift, launch into the air.
- * The launch should scale off the charge time.
- *
- * We can listen to the player sneaking with the [org.bukkit.event.player.PlayerToggleSneakEvent], and
- * then launch a new repeating task to check how long the player is sneaking for.
- *
- * This task will execute every tick, and if the player is still holding down shift, increment the
- * "chargeTime" variable by one.
- *
- * Once the player has stopped holding shift, use the [BukkitTask] instance to cancel the task,
- * which will stop it from repeating. Then, apply velocity to the player by multiplying the "chargeTime" variable
- * by a scaling factor. e.g. chargeTime * 0.05 to multiply by 1 every second the charge time is held.
- * You should probably put a cap on this too.
- */
 class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
 
     @EventHandler
@@ -92,12 +75,12 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
         }
     }
 
-    @EventHandler
-    fun canFly(event: EntityToggleGlideEvent) {
-        if (event.isGliding && event.entity.location.block.getRelative(BlockFace.DOWN).isEmpty) {
-            event.isCancelled = true
-        }
-    }
+//    @EventHandler
+//    fun canFly(event: EntityToggleGlideEvent) {
+//        if (event.isGliding && event.entity.location.block.getRelative(BlockFace.DOWN).isEmpty) {
+//            event.isCancelled = true
+//        }
+//    }
 
 
     private fun startParticleTask(player: Player) {
