@@ -13,6 +13,7 @@ class ServerCommands(private val plugin: Plugin) : CommandExecutor {
         val player = sender as? Player ?: return false
         if (sender.hasPermission("melodies.command.server")) {
             PlayerServerUtils.transfer(plugin, player, "lobby")
+            PlayerServerUtils.transfer(plugin, player, "mine")
             sender.sendMessage("<green>Transferring you now!</green>".toMiniMessage())
         } else
             sender.sendMessage("<red>You do not have permission to use this command.</red>".toMiniMessage())
