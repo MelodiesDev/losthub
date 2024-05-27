@@ -32,6 +32,10 @@ dependencies {
 
     api("xyz.xenondevs.invui:invui:1.25")
     api("xyz.xenondevs.invui:invui-kotlin:1.25")
+
+    api("org.incendo:cloud-paper:2.0.0-beta.7")
+    api("org.incendo:cloud-kotlin-coroutines-annotations:2.0.0-rc.1")
+    api("org.incendo:cloud-annotations:2.0.0-rc.1")
 }
 
 configure<BukkitPluginDescription> {
