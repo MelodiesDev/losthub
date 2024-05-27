@@ -1,6 +1,8 @@
 package dev.melodies.losthubfeats
 
 import org.bukkit.Bukkit
+import org.bukkit.Color
+import org.bukkit.Particle.DustOptions
 import org.bukkit.Sound
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
@@ -11,6 +13,8 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
 import org.bukkit.event.player.PlayerToggleSneakEvent
 import org.bukkit.plugin.java.JavaPlugin
+import org.joml.Matrix4d
+import org.joml.Vector3d
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
@@ -99,17 +103,105 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
         event.player.isGliding = true
         player.velocity = player.eyeLocation.direction.multiply(1)
 
-        val r = 1.0 // radius
-        val numOfParticles = 100 // number of particles you want to spawn
+        val r1 = 1.0
+        val r2 = 5.0
+        val r3 = 10.0// radius - how "big" the circle is
+        val numOfParticles1 = 100
+        val numOfParticles2 = 200
+        val numOfParticles3 = 300// number of particles you want to spawn
 
-        for (i in 0 until numOfParticles) {
-            val theta = 2.0 * Math.PI * i / numOfParticles
-            val y = r * cos(theta)
-            val z = r * sin(theta)
+        // Center point
+        val center = Vector3d(player.location.x, player.location.y, player.location.z)
 
-            val location = player.location.clone().add(0.0, y, z)
-            player.world.spawnParticle(org.bukkit.Particle.GUST, location, 0, 0.1, 1.0, 1.0, 0.0)
+        for (i in 0 until numOfParticles1) {
+            val theta = 2.0 * Math.PI * i / numOfParticles1
+            val o1 = r1 * cos(theta)
+            val o2 = r1 * sin(theta)
+
+            // At this point, the circle is on the ground, laying flat
+            val point = Vector3d(center.x + o1, center.y, center.z + o2)
+            val transformed = Matrix4d().translate(center)
+                // Rotate the circle to be upright
+                .rotate(Math.toRadians(90.0), 1.0, 0.0, 0.0)
+                // Rotate the circle to be facing the player
+                .rotate(Math.toRadians(player.location.pitch.toDouble()), -1.0, 0.0, 0.0)
+                .rotate(Math.toRadians(player.location.yaw.toDouble()), 0.0, 0.0, 1.0)
+                .translate(center.negate())
+                .transformPosition(point)
+
+            player.world.spawnParticle(
+                org.bukkit.Particle.REDSTONE,
+                transformed.x,
+                transformed.y,
+                transformed.z,
+                1,
+                0.0,
+                0.0,
+                0.0,
+                DustOptions(Color.WHITE, 1f)
+            )
         }
+        for (i in 0 until numOfParticles2) {
+            val theta = 2.0 * Math.PI * i / numOfParticles2
+            val o1 = r2 * cos(theta)
+            val o2 = r2 * sin(theta)
+
+            // At this point, the circle is on the ground, laying flat
+            val point = Vector3d(center.x + o1, center.y, center.z + o2)
+                .sub(player.location.direction.multiply(3).toVector3d())
+
+            val transformed = Matrix4d().translate(center)
+                // Rotate the circle to be upright
+                .rotate(Math.toRadians(90.0), 1.0, 0.0, 0.0)
+                // Rotate the circle to be facing the player
+                .rotate(Math.toRadians(player.location.pitch.toDouble()), -1.0, 0.0, 0.0)
+                .rotate(Math.toRadians(player.location.yaw.toDouble()), 0.0, 0.0, 1.0)
+                .translate(center.negate())
+                .transformPosition(point)
+
+            player.world.spawnParticle(
+                org.bukkit.Particle.REDSTONE,
+                transformed.x,
+                transformed.y,
+                transformed.z,
+                3,
+                0.0,
+                0.0,
+                0.0,
+                DustOptions(Color.WHITE, 2f)
+            )
+        }
+        for (i in 0 until numOfParticles3) {
+            val theta = 2.0 * Math.PI * i / numOfParticles3
+            val o1 = r3 * cos(theta)
+            val o2 = r3 * sin(theta)
+
+            // At this point, the circle is on the ground, laying flat
+            val point = Vector3d(center.x + o1, center.y, center.z + o2)
+                .sub(player.location.direction.multiply(5).toVector3d())
+
+            val transformed = Matrix4d().translate(center)
+                // Rotate the circle to be upright
+                .rotate(Math.toRadians(90.0), 1.0, 0.0, 0.0)
+                // Rotate the circle to be facing the player
+                .rotate(Math.toRadians(player.location.pitch.toDouble()), -1.0, 0.0, 0.0)
+                .rotate(Math.toRadians(player.location.yaw.toDouble()), 0.0, 0.0, 1.0)
+                .translate(center.negate())
+                .transformPosition(point)
+
+            player.world.spawnParticle(
+                org.bukkit.Particle.REDSTONE,
+                transformed.x,
+                transformed.y,
+                transformed.z,
+                5,
+                0.0,
+                0.0,
+                0.0,
+                DustOptions(Color.WHITE, 3f)
+            )
+        }
+
         player.world.playSound(player, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 0.5f, 0.1f)
         player.world.playSound(player, Sound.ENTITY_FIREWORK_ROCKET_BLAST_FAR, 0.5f, 0.1f)
     }
