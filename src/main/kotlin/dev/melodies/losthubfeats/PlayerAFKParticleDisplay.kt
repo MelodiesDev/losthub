@@ -13,7 +13,7 @@ import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
 
-class PlayerAFKItemDisplayEntity(private val plugin: JavaPlugin) : Listener {
+class PlayerAFKParticleDisplay(private val plugin: JavaPlugin) : Listener {
 
     private val lastSeen = mutableMapOf<UUID, Long>()
 

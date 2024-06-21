@@ -1,11 +1,9 @@
 package dev.melodies.losthub
 
-import dev.melodies.losthubfeats.PlayerAFKItemDisplayEntity
+import dev.melodies.losthubfeats.PlayerAFKParticleDisplay
 import dev.melodies.losthubfeats.PlayerDoubleJump
-import dev.melodies.lostmenu.CompassGrantListener
-import dev.melodies.lostmenu.OpenNavigatorListener
-import dev.melodies.lostmenu.OpenShopListener
-import dev.melodies.lostmenu.ShopGrantListener
+import dev.melodies.lostmenu.MenuListener
+import dev.melodies.utils.PlayerJoinItemGrantListener
 import dev.melodies.utils.PlayerServerUtils
 import dev.melodies.utils.toMiniMessage
 import net.kyori.adventure.text.event.ClickEvent
@@ -28,16 +26,13 @@ import org.incendo.cloud.paper.PaperCommandManager
 @Suppress("unused")
 class LostHubPlugins : JavaPlugin() {
     override fun onEnable() {
-        logger.info("LostHub has been enabled!")
-        Bukkit.getPluginManager().registerEvents(CompassGrantListener(), this)
-        Bukkit.getPluginManager().registerEvents(OpenNavigatorListener(this), this)
-        Bukkit.getPluginManager().registerEvents(ShopGrantListener(), this)
-        Bukkit.getPluginManager().registerEvents(OpenShopListener(), this)
         Bukkit.getPluginManager().registerEvents(PlayerDoubleJump(this), this)
+        Bukkit.getPluginManager().registerEvents(PlayerJoinItemGrantListener(), this)
+        Bukkit.getPluginManager().registerEvents(MenuListener(this), this) // Opens the menu
 
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord")
 
-        PlayerAFKItemDisplayEntity(this).init()
+        PlayerAFKParticleDisplay(this).init()
 
         val commandManager = PaperCommandManager.createNative(
             this, ExecutionCoordinator.asyncCoordinator()
@@ -51,6 +46,8 @@ class LostHubPlugins : JavaPlugin() {
 
         val annotationParser = AnnotationParser(commandManager, CommandSender::class.java)
         annotationParser.parse(this)
+
+        logger.info("LostHub has been enabled!")
     }
 
     @Command("lobby")
