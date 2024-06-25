@@ -55,7 +55,7 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
 
                 player.world.playSound(player, Sound.ITEM_TRIDENT_RIPTIDE_1, 0.5f, 2f)
                 player.world.spawnParticle(
-                    org.bukkit.Particle.BLOCK_CRACK,
+                    org.bukkit.Particle.BLOCK,
                     player.location,
                     100,
                     1.0,
@@ -130,7 +130,7 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
                 .transformPosition(point)
 
             player.world.spawnParticle(
-                org.bukkit.Particle.REDSTONE,
+                org.bukkit.Particle.DUST,
                 transformed.x,
                 transformed.y,
                 transformed.z,
@@ -160,7 +160,7 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
                 .transformPosition(point)
 
             player.world.spawnParticle(
-                org.bukkit.Particle.REDSTONE,
+                org.bukkit.Particle.DUST,
                 transformed.x,
                 transformed.y,
                 transformed.z,
@@ -190,7 +190,7 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
                 .transformPosition(point)
 
             player.world.spawnParticle(
-                org.bukkit.Particle.REDSTONE,
+                org.bukkit.Particle.DUST,
                 transformed.x,
                 transformed.y,
                 transformed.z,

@@ -1,5 +1,6 @@
 package dev.melodies.lostmenu
 
+import dev.melodies.gadgets.TrampolineItem.Companion.TRAMPOLINE
 import dev.melodies.losthub.LostHubPlugins
 import dev.melodies.utils.PlayerJoinItemGrantListener
 import dev.melodies.utils.PlayerServerUtils
@@ -7,7 +8,7 @@ import dev.melodies.utils.toMiniMessage
 import dev.melodies.utils.wrapped
 import net.kyori.adventure.text.event.ClickEvent
 import org.bukkit.Material
-import org.bukkit.block.BlockFace
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
@@ -20,6 +21,8 @@ import xyz.xenondevs.invui.window.Window
 class MenuListener(private val plugin: LostHubPlugins) : Listener {
     @EventHandler
     fun menuChecker(event: PlayerInteractEvent) {
+        val player = event.player
+
         if (event.action != Action.RIGHT_CLICK_AIR && event.action != Action.RIGHT_CLICK_BLOCK) return
 
         val item = event.item ?: return
@@ -152,29 +155,9 @@ class MenuListener(private val plugin: LostHubPlugins) : Listener {
                 )
                 .addIngredient(
                     '#', SimpleItem(
-                        ItemBuilder(Material.SLIME_BLOCK)
-                            .setDisplayName(
-                                "<gradient:green:aqua>Trampoline!</gradient>".toMiniMessage().wrapped()
-                            )
-                            .addLoreLines(
-                                "<gradient:dark_purple:light_purple>Click to summon a trampoline!</gradient>".toMiniMessage()
-                                    .wrapped()
-                            )
+                        ItemBuilder(TRAMPOLINE)
                     ) {
-                        it.player.world.playSound(it.player.location, "minecraft:block.slime.big", 1.0f, 1.0f)
-                        it.player.world.spawnParticle(
-                            org.bukkit.Particle.SLIME,
-                            it.player.location,
-                            100,
-                            1.0,
-                            0.0,
-                            1.0,
-                            0.2
-                        )
-
-                        it.player.location.block.getRelative(BlockFace.DOWN).type = Material.SLIME_BLOCK
-
-                        PlayerServerUtils.transfer(plugin, it.player, "far_shore")
+                        player.inventory.addItem(TRAMPOLINE)
                     }
                 )
                 .build()
@@ -187,6 +170,132 @@ class MenuListener(private val plugin: LostHubPlugins) : Listener {
 
             window.open()
 
+        }
+    }
+
+    companion object {
+        fun openCubeMenu(sender: Player) {
+            val gui = Gui.normal() // Creates the GuiBuilder for a normal GUI
+                .setStructure(
+                    "! @ # $ % ^ & * (",
+                )
+                .addIngredient(
+                    '!', SimpleItem(
+                        ItemBuilder(Material.CHEST)
+                            .setDisplayName(
+                                "<gradient:green:aqua>Earthly Cube</gradient>".toMiniMessage().wrapped()
+                            )
+                            .addLoreLines(
+                                "<dark_red>Click to open an Earthly Cube!</dark_red>".toMiniMessage()
+                                    .wrapped()
+                            )
+                    )
+                )
+                .addIngredient(
+                    '@', SimpleItem(
+                        ItemBuilder(Material.CHEST)
+                            .setDisplayName(
+                                "<gradient:green:aqua>Ghoulish Cube</gradient>".toMiniMessage().wrapped()
+                            )
+                            .addLoreLines(
+                                "<dark_red>Click to open a Ghoulish Cube!</dark_red>".toMiniMessage()
+                                    .wrapped()
+                            )
+                    )
+                )
+                .addIngredient(
+                    '#', SimpleItem(
+                        ItemBuilder(Material.CHEST)
+                            .setDisplayName(
+                                "<gradient:green:aqua>Spectral Cube</gradient>".toMiniMessage().wrapped()
+                            )
+                            .addLoreLines(
+                                "<dark_red>Click to open an Spectral Cube!</dark_red>".toMiniMessage()
+                                    .wrapped()
+                            )
+                    )
+                )
+                .addIngredient(
+                    '$', SimpleItem(
+                        ItemBuilder(Material.CHEST)
+                            .setDisplayName(
+                                "<gradient:green:aqua>Magical Cube</gradient>".toMiniMessage().wrapped()
+                            )
+                            .addLoreLines(
+                                "<dark_red>Click to open an Magical Cube!</dark_red>".toMiniMessage()
+                                    .wrapped()
+                            )
+                    )
+                )
+                .addIngredient(
+                    '%', SimpleItem(
+                        ItemBuilder(Material.CHEST)
+                            .setDisplayName(
+                                "<gradient:green:aqua>Phantasmal Cube</gradient>".toMiniMessage().wrapped()
+                            )
+                            .addLoreLines(
+                                "<dark_red>Click to open an Phantasmal Cube!</dark_red>".toMiniMessage()
+                                    .wrapped()
+                            )
+                    )
+                )
+                .addIngredient(
+                    '^', SimpleItem(
+                        ItemBuilder(Material.CHEST)
+                            .setDisplayName(
+                                "<gradient:green:aqua>Mystical Cube</gradient>".toMiniMessage().wrapped()
+                            )
+                            .addLoreLines(
+                                "<dark_red>Click to open an Mystical Cube!</dark_red>".toMiniMessage()
+                                    .wrapped()
+                            )
+                    )
+                )
+                .addIngredient(
+                    '&', SimpleItem(
+                        ItemBuilder(Material.CHEST)
+                            .setDisplayName(
+                                "<gradient:green:aqua>Mystical Cube</gradient>".toMiniMessage().wrapped()
+                            )
+                            .addLoreLines(
+                                "<dark_red>Click to open an Mystical Cube!</dark_red>".toMiniMessage()
+                                    .wrapped()
+                            )
+                    )
+                )
+                .addIngredient(
+                    '*', SimpleItem(
+                        ItemBuilder(Material.CHEST)
+                            .setDisplayName(
+                                "<gradient:green:aqua>Mystical Cube</gradient>".toMiniMessage().wrapped()
+                            )
+                            .addLoreLines(
+                                "<dark_red>Click to open an Mystical Cube!</dark_red>".toMiniMessage()
+                                    .wrapped()
+                            )
+                    )
+                )
+                .addIngredient(
+                    '(', SimpleItem(
+                        ItemBuilder(Material.CHEST)
+                            .setDisplayName(
+                                "<gradient:green:aqua>Mystical Cube</gradient>".toMiniMessage().wrapped()
+                            )
+                            .addLoreLines(
+                                "<dark_red>Click to open an Mystical Cube!</dark_red>".toMiniMessage()
+                                    .wrapped()
+                            )
+                    )
+                )
+                .build()
+
+            val window = Window.single()
+                .setViewer(sender)
+                .setTitle("Spirit Cubes")
+                .setGui(gui)
+                .build()
+
+            window.open()
         }
     }
 }

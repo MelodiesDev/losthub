@@ -1,11 +1,11 @@
 [versions]
-kotlin = "1.9.10"
-paperweight = "1.5.11"
+kotlin = "2.0.0"
+paperweight = "1.7.1"
 plugin-yml = "0.6.0"
 run-task = "2.2.2"
 shadow = "8.1.1"
 
-paper = "1.20.4-R0.1-SNAPSHOT"
+paper = "1.21-R0.1-SNAPSHOT"
 
 [libraries]
 paper-devbundle = { group = "io.papermc.paper", name = "dev-bundle", version.ref = "paper" }

@@ -51,7 +51,7 @@ class PlayerAFKParticleDisplay(private val plugin: JavaPlugin) : Listener {
 
                 val location = player.location.clone().add(z, 1.0, x)
                 player.world.spawnParticle(
-                    org.bukkit.Particle.REDSTONE,
+                    org.bukkit.Particle.DUST,
                     location,
                     0,
                     0.1,
