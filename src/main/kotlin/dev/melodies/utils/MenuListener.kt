@@ -1,11 +1,9 @@
-package dev.melodies.lostmenu
+package dev.melodies.utils
 
 import dev.melodies.gadgets.TrampolineItem.Companion.TRAMPOLINE
 import dev.melodies.losthub.LostHubPlugins
-import dev.melodies.utils.PlayerJoinItemGrantListener
-import dev.melodies.utils.PlayerServerUtils
-import dev.melodies.utils.toMiniMessage
-import dev.melodies.utils.wrapped
+import dev.melodies.utils.player.PlayerJoinItemGrantListener
+import dev.melodies.utils.player.PlayerServerUtils
 import net.kyori.adventure.text.event.ClickEvent
 import org.bukkit.Material
 import org.bukkit.entity.Player

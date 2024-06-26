@@ -1,12 +1,12 @@
 package dev.melodies.losthub
 
 import dev.melodies.gadgets.TrampolineItem
-import dev.melodies.losthubfeats.PlayerAFKParticleDisplay
-import dev.melodies.losthubfeats.PlayerDoubleJump
-import dev.melodies.lostmenu.MenuListener
-import dev.melodies.utils.AdminCommands
-import dev.melodies.utils.PlayerCommands
-import dev.melodies.utils.PlayerJoinItemGrantListener
+import dev.melodies.actions.PlayerAFKParticleDisplay
+import dev.melodies.actions.PlayerDoubleJump
+import dev.melodies.utils.MenuListener
+import dev.melodies.utils.commands.AdminCommands
+import dev.melodies.utils.commands.PlayerCommands
+import dev.melodies.utils.player.PlayerJoinItemGrantListener
 import dev.melodies.utils.ScoreboardEnabler
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -24,7 +24,10 @@ class LostHubPlugins : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(PlayerJoinItemGrantListener(), this)
         Bukkit.getPluginManager().registerEvents(MenuListener(this), this) // Opens the menu
         Bukkit.getPluginManager().registerEvents(TrampolineItem(this), this) // Opens the menu
-        Bukkit.getPluginManager().registerEvents(ScoreboardEnabler(), this)
+
+        val enabler = ScoreboardEnabler(this)
+        enabler.scheduleScoreboardUpdates()
+        Bukkit.getPluginManager().registerEvents(enabler, this)
 
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord")
 

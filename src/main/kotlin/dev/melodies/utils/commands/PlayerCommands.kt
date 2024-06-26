@@ -1,10 +1,14 @@
-package dev.melodies.utils
+package dev.melodies.utils.commands
 
 import dev.melodies.losthub.LostHubPlugins
-import dev.melodies.lostmenu.MenuListener
+import dev.melodies.utils.MenuListener
+import dev.melodies.utils.player.PlayerDataStorage
+import dev.melodies.utils.player.PlayerServerUtils
+import dev.melodies.utils.toMiniMessage
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.BookMeta
@@ -18,16 +22,12 @@ class PlayerCommands(private val plugin: LostHubPlugins) {
 
     @Command("lobby")
     fun lobby(sender: Player) {
-        if (sender.hasPermission("melodies.command.server")) {
-            PlayerServerUtils.transfer(plugin, sender, "lobby")
+        PlayerServerUtils.transfer(plugin, sender, "lobby")
             sender.sendMessage("<green>Transferring you now!</green>".toMiniMessage())
-        } else
-            sender.sendMessage("<red>You do not have permission to use this command.</red>".toMiniMessage())
     }
 
     @Command("info")
     fun info(sender: Player) {
-        if (sender.hasPermission("melodies.command.infobook")) {
             val book = ItemStack(Material.WRITTEN_BOOK)
             book.editMeta(BookMeta::class.java) { meta ->
                 meta.title(MiniMessage.miniMessage().deserialize("<gradient:blue:aqua>Info</gradient>"))
@@ -64,19 +64,22 @@ class PlayerCommands(private val plugin: LostHubPlugins) {
                 )
             }
             sender.openBook(book)
-        } else
-            sender.sendMessage("You do not have permission to use this command.")
     }
 
     @Command("shop")
     fun shop(sender: Player) {
-        if (sender.hasPermission("melodies.command.shop")) {
             sender.sendMessage(
                 "<gradient:dark_purple:light_purple>melodies.dev uber sale 100% off!!!</gradient>".toMiniMessage()
                     .clickEvent(
                         ClickEvent.openUrl("https://melodies.dev")
                     )
             )
-        }
+    }
+
+    @Command("daily")
+    fun daily(sender: Player) {
+        PlayerDataStorage.setPlayerStats(sender.uniqueId.toString(), +10, +100)
+            sender.sendMessage("<green>You collected your daily +10 <gold>coins</gold> and +10 <aqua>xp</aqua>!</green>".toMiniMessage())
+            sender.playSound(sender.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
     }
 }

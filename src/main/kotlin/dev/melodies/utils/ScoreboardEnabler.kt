@@ -1,33 +1,39 @@
 package dev.melodies.utils
 
+import dev.melodies.utils.player.PlayerDataStorage
 import io.papermc.paper.scoreboard.numbers.NumberFormat
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scoreboard.DisplaySlot
 import org.bukkit.scoreboard.Score
 import org.bukkit.scoreboard.Scoreboard
 import org.bukkit.scoreboard.ScoreboardManager
 
-class ScoreboardEnabler : Listener {
+class ScoreboardEnabler(
+    private val plugin: JavaPlugin
+) : Listener {
 
-    @EventHandler
-    fun onJoin(event: PlayerJoinEvent) {
-        val player = event.player
+    private fun updateScoreboard(player: Player) {
+        val stats = PlayerDataStorage.getPlayerStats(player.uniqueId.toString())
 
-        val currentCoins = 100
-        val currentExp = 59
+        val currentCoins = stats?.coins ?: 0
+        val currentExp = stats?.xp ?: 0
 
         // Create a Scoreboard Manager
         val manager: ScoreboardManager = Bukkit.getScoreboardManager()
 
         // Create a new Scoreboard
-        val board: Scoreboard = manager.newScoreboard
+        val board: Scoreboard = manager.mainScoreboard
 
         // Create the Objective (displayed name)
-        val objective = board.registerNewObjective("test", "dummy", "<gradient:aqua:dark_purple><b>LostOasis</b></gradient>".toMiniMessage())
+        val objective = board.getObjective("test")
+            ?: board.registerNewObjective("test", "dummy", "<gradient:aqua:dark_purple><b>LostOasis</b></gradient>".toMiniMessage())
+
         objective.displaySlot = DisplaySlot.SIDEBAR
         objective.numberFormat(NumberFormat.blank())
 
@@ -65,5 +71,19 @@ class ScoreboardEnabler : Listener {
 
         // Assign the scoreboard to the player
         player.scoreboard = board
+    }
+
+    fun scheduleScoreboardUpdates() {
+        Bukkit.getScheduler().runTaskTimer(plugin, Runnable {
+            for (player in Bukkit.getOnlinePlayers()) {
+                updateScoreboard(player)
+            }
+        }, 0L, 20L * 5) // Run task every 5 seconds (100 ticks)
+    }
+
+    @EventHandler
+    fun onJoin(event: PlayerJoinEvent) {
+        val player = event.player
+        updateScoreboard(player)
     }
 }

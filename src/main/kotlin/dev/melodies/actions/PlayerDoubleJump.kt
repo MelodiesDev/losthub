@@ -1,4 +1,4 @@
-package dev.melodies.losthubfeats
+package dev.melodies.actions
 
 import org.bukkit.Bukkit
 import org.bukkit.Color

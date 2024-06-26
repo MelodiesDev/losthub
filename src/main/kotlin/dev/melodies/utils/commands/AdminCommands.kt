@@ -1,6 +1,7 @@
-package dev.melodies.utils
+package dev.melodies.utils.commands
 
 import dev.melodies.losthub.LostHubPlugins
+import dev.melodies.utils.toMiniMessage
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.entity.Display

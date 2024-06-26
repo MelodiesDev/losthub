@@ -1,4 +1,4 @@
-package dev.melodies.utils
+package dev.melodies.utils.player
 
 import com.google.common.io.ByteStreams
 import org.bukkit.entity.Player

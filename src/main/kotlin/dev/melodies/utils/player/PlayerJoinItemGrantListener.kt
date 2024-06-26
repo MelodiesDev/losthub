@@ -1,5 +1,7 @@
-package dev.melodies.utils
+package dev.melodies.utils.player
 
+import dev.melodies.utils.toMiniMessage
+import dev.melodies.utils.wrapped
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.event.EventHandler

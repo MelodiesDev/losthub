@@ -1,4 +1,4 @@
-package dev.melodies.losthubfeats
+package dev.melodies.actions
 
 import dev.melodies.utils.toMiniMessage
 import org.bukkit.Bukkit
