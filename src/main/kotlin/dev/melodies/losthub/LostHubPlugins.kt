@@ -3,6 +3,7 @@ package dev.melodies.losthub
 import dev.melodies.gadgets.TrampolineItem
 import dev.melodies.actions.PlayerAFKParticleDisplay
 import dev.melodies.actions.PlayerDoubleJump
+import dev.melodies.actions.VaultOpener
 import dev.melodies.utils.MenuListener
 import dev.melodies.utils.commands.AdminCommands
 import dev.melodies.utils.commands.PlayerCommands
@@ -28,6 +29,9 @@ class LostHubPlugins : JavaPlugin() {
         val enabler = ScoreboardEnabler(this)
         enabler.scheduleScoreboardUpdates()
         Bukkit.getPluginManager().registerEvents(enabler, this)
+
+        val vaultOpener = VaultOpener()
+        Bukkit.getPluginManager().registerEvents(vaultOpener, this)
 
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord")
 

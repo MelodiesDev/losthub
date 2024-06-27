@@ -1,7 +1,7 @@
 package dev.melodies.utils.commands
 
+import dev.melodies.actions.VaultOpener
 import dev.melodies.losthub.LostHubPlugins
-import dev.melodies.utils.MenuListener
 import dev.melodies.utils.player.PlayerDataStorage
 import dev.melodies.utils.player.PlayerServerUtils
 import dev.melodies.utils.toMiniMessage
@@ -13,12 +13,9 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.BookMeta
 import org.incendo.cloud.annotations.Command
+import kotlin.time.Duration.Companion.days
 
 class PlayerCommands(private val plugin: LostHubPlugins) {
-    @Command("cubes")
-    fun cubes(sender: Player) {
-        MenuListener.openCubeMenu(sender)
-    }
 
     @Command("lobby")
     fun lobby(sender: Player) {
@@ -78,8 +75,25 @@ class PlayerCommands(private val plugin: LostHubPlugins) {
 
     @Command("daily")
     fun daily(sender: Player) {
+        val now = System.currentTimeMillis()
+        val playerUUID = sender.uniqueId
+        val lastUsage = CommandCooldownStorage.getCooldown(playerUUID)
+
+        if (lastUsage != null && (now - lastUsage) < 1.days.inWholeMilliseconds) {
+            sender.sendMessage("<red>You can only collect your daily reward once every 24 hours.</red>".toMiniMessage())
+            sender.playSound(sender.location, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 0.5f)
+            return
+        }
+
         PlayerDataStorage.setPlayerStats(sender.uniqueId.toString(), +10, +100)
             sender.sendMessage("<green>You collected your daily +10 <gold>coins</gold> and +10 <aqua>xp</aqua>!</green>".toMiniMessage())
             sender.playSound(sender.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
+
+        CommandCooldownStorage.setCooldown(playerUUID, now)
+    }
+
+    @Command("vault")
+    fun vault(sender: Player) {
+        VaultOpener.openVault(sender)
     }
 }
