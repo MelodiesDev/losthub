@@ -36,6 +36,10 @@ dependencies {
     api("org.incendo:cloud-paper:2.0.0-beta.9")
     api("org.incendo:cloud-kotlin-coroutines-annotations:2.0.0-rc.2")
     api("org.incendo:cloud-annotations:2.0.0-rc.2")
+
+    api("com.github.MilkBowl:VaultAPI:1.7") {
+        exclude(group = "org.bukkit")
+    }
 }
 
 configure<BukkitPluginDescription> {
@@ -44,17 +48,6 @@ configure<BukkitPluginDescription> {
 
     authors = listOf("Melody <3")
     apiVersion = "1.21"
-
-    commands {
-        create("info") {
-            description = "Opens the info book"
-            permission = "losthub.info"
-        }
-        create("hub") {
-            description = "Teleports you to the hub"
-            permission = "losthub.server"
-        }
-    }
 }
 
 configure<KotlinJvmProjectExtension> {

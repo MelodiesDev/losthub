@@ -1,5 +1,6 @@
 package dev.melodies.utils
 
+import dev.melodies.gadgets.RepulsionBowItem.Companion.REPULSION
 import dev.melodies.gadgets.TrampolineItem.Companion.TRAMPOLINE
 import dev.melodies.losthub.LostHubPlugins
 import dev.melodies.utils.player.PlayerJoinItemGrantListener
@@ -148,13 +149,20 @@ class MenuListener(private val plugin: LostHubPlugins) : Listener {
         if (keysMap[PlayerJoinItemGrantListener.GADGETKEY] == true) {
             val gui = Gui.normal() // Creates the GuiBuilder for a normal GUI
                 .setStructure(
-                    ". # . . . . . . .",
+                    ". # . @ . . . . .",
                 )
                 .addIngredient(
                     '#', SimpleItem(
                         ItemBuilder(TRAMPOLINE)
                     ) {
                         player.inventory.addItem(TRAMPOLINE)
+                    }
+                )
+                .addIngredient(
+                    '@', SimpleItem(
+                        ItemBuilder(REPULSION)
+                    ) {
+                        player.inventory.addItem(REPULSION)
                     }
                 )
                 .build()

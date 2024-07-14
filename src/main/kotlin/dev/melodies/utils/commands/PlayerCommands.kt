@@ -2,6 +2,7 @@ package dev.melodies.utils.commands
 
 import dev.melodies.actions.VaultOpener
 import dev.melodies.losthub.LostHubPlugins
+import dev.melodies.utils.TimeFormatting
 import dev.melodies.utils.player.PlayerDataStorage
 import dev.melodies.utils.player.PlayerServerUtils
 import dev.melodies.utils.toMiniMessage
@@ -78,9 +79,12 @@ class PlayerCommands(private val plugin: LostHubPlugins) {
         val now = System.currentTimeMillis()
         val playerUUID = sender.uniqueId
         val lastUsage = CommandCooldownStorage.getCooldown(playerUUID)
+        val timeSinceLastUsage = now - (lastUsage ?: 0)
+        val countdown = 1.days.inWholeMilliseconds - timeSinceLastUsage
 
-        if (lastUsage != null && (now - lastUsage) < 1.days.inWholeMilliseconds) {
-            sender.sendMessage("<red>You can only collect your daily reward once every 24 hours.</red>".toMiniMessage())
+        if (countdown > 0) {
+            val formatted = TimeFormatting.formatRemainingDuration(lastUsage ?: 0, 1.days.inWholeMilliseconds)
+            sender.sendMessage("<red>You can collect your daily reward again in <gold>$formatted</gold>.</red>".toMiniMessage())
             sender.playSound(sender.location, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 0.5f)
             return
         }
