@@ -5,7 +5,7 @@ import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 
 
-object PlayerServerUtils {
+object ServerTransferUtils {
     fun transfer(plugin: Plugin, player: Player, server: String) {
         val out = ByteStreams.newDataOutput()
         out.writeUTF("Connect")

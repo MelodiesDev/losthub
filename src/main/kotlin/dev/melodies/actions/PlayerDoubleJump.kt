@@ -40,7 +40,7 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
                 chargeTime++
                 if (chargeTime <= chargeDelay) return@runTaskTimer
 
-                // Play a cool ass funking sound.jpeg
+                // Play a cool ass funking sound.jpegS
                 val pitch = min(chargeTime * 0.1f, 2f)
                 player.playSound(player, Sound.BLOCK_SCULK_CHARGE, 1f, pitch)
             } else {
@@ -90,10 +90,9 @@ class PlayerDoubleJump(private val plugin: JavaPlugin) : Listener {
 
     @EventHandler
     fun onPlayerToggleFlight(event: PlayerToggleFlightEvent) {
-        // TODO: Fix this with creative mode
-        // We only care if they just started flying
         val player = event.player
 
+        if (player.location.block.getRelative(BlockFace.DOWN, 5).isSolid) return
         if (!event.isFlying) return
 
         // Cancel the flight

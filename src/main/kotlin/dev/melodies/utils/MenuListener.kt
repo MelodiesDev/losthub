@@ -4,7 +4,7 @@ import dev.melodies.gadgets.RepulsionBowItem.Companion.REPULSION
 import dev.melodies.gadgets.TrampolineItem.Companion.TRAMPOLINE
 import dev.melodies.losthub.LostHubPlugins
 import dev.melodies.utils.player.PlayerJoinItemGrantListener
-import dev.melodies.utils.player.PlayerServerUtils
+import dev.melodies.utils.player.ServerTransferUtils
 import net.kyori.adventure.text.event.ClickEvent
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
@@ -103,7 +103,7 @@ class MenuListener(private val plugin: LostHubPlugins) : Listener {
                             1.0,
                             0.2
                         )
-                        PlayerServerUtils.transfer(plugin, it.player, "far_shore")
+                        ServerTransferUtils.transfer(plugin, it.player, "far_shore")
                     }
                 )
                 .addIngredient(
@@ -132,7 +132,7 @@ class MenuListener(private val plugin: LostHubPlugins) : Listener {
                             0.1,
                             0.01
                         )
-                        PlayerServerUtils.transfer(plugin, it.player, "prison")
+                        ServerTransferUtils.transfer(plugin, it.player, "prison")
                     }
                 )
                 .build()

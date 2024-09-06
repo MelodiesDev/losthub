@@ -4,7 +4,7 @@ import dev.melodies.actions.VaultOpener
 import dev.melodies.losthub.LostHubPlugins
 import dev.melodies.utils.TimeFormatting
 import dev.melodies.utils.player.PlayerDataStorage
-import dev.melodies.utils.player.PlayerServerUtils
+import dev.melodies.utils.player.ServerTransferUtils
 import dev.melodies.utils.toMiniMessage
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -20,7 +20,7 @@ class PlayerCommands(private val plugin: LostHubPlugins) {
 
     @Command("lobby")
     fun lobby(sender: Player) {
-        PlayerServerUtils.transfer(plugin, sender, "lobby")
+        ServerTransferUtils.transfer(plugin, sender, "lobby")
             sender.sendMessage("<green>Transferring you now!</green>".toMiniMessage())
     }
 
